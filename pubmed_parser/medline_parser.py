@@ -58,11 +58,12 @@ def parse_doi(pubmed_article):
             doi = e.text.strip() or '' if e.attrib.get('EIdType', '') == 'doi' else ''
     else:
         article_ids = pubmed_article.find('PubmedData/ArticleIdList')
+        doi = ''
         if article_ids is not None:
-            doi = article_ids.find('ArticleId[@IdType="doi"]')
-            doi = doi.text.strip() if doi is not None else ''
-        else:
-            doi = ''
+            adoi = article_ids.find('ArticleId[@IdType="doi"]')
+            if adoi is not None:
+                if adoi.text is not None:
+                    doi = adoi.text.strip()
     return doi
 
 
